@@ -1,4 +1,6 @@
 ## Run this file in terminal using the command: python app.py
+
+
 from flask import Flask, jsonify, render_template, Response
 import cv2
 import numpy as np
