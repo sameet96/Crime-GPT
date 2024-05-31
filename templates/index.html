@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Detector</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .alert-custom {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        .alert-custom-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+        #videoStream {
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        #status {
+            margin-top: 20px;
+        }
+        footer {
+            margin-top: 50px;
+            padding: 10px 0;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container text-center">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Crime Detector Logo" class="logo">
+        <h1 class="mb-4">Crime Detector</h1>
+        <button id="startButton" class="btn btn-custom btn-lg">Start</button>
+        <div id="status" class="mt-3"></div>
+        <div class="mt-4">
+            <img id="videoStream" src="/video_feed" width="640" height="480" class="img-fluid" />
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Crime Detector. All rights reserved.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function(){
+            $('#startButton').click(function(){
+                $('#status').text('Starting video capture...');
+                $.ajax({
+                    url: '/process_video',
+                    method: 'POST',
+                    success: function(response) {
+                        $('#status').html('<div class="alert alert-custom">' + response.message + '</div>');
+                    },
+                    error: function() {
+                        $('#status').html('<div class="alert alert-custom-danger">Error starting video capture.</div>');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
