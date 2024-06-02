@@ -60,11 +60,11 @@ $(document).ready(function(){
     $('.modal').modal();
 
     $('#button1').click(function() {
-        sendVideo('/static/images/Arson006_x264.mov');
+        sendVideo('/Users/pbangad/Documents/CrimeApp/Crime-GPT/static/images/Assault033_x264.mov');
     });
 
     $('#button2').click(function() {
-        sendVideo('/static/images/Arrest024_x264.mov');
+        sendVideo('/Users/pbangad/Documents/CrimeApp/Crime-GPT/static/images/Assault032_x264.mov');
     });
 });
 
@@ -75,11 +75,11 @@ function sendVideo(hardcodedValue) {
         contentType: 'application/json',
         data: JSON.stringify(hardcodedValue),
         success: function(response) {
-            $('#responseText').text(response.message);
+            $('#responseText').html('<div class="alert alert-custom">' + response.message + '</div>');
             $('#modal1').modal('open');
         },
         error: function(error) {
-            $('#responseText').text('An error occurred: ' + error.responseText);
+            $('#responseText').html('<div class="alert alert-custom">' + error.responseText + '</div>');
             $('#modal1').modal('open');
         }
     });

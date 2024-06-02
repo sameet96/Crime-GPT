@@ -40,11 +40,10 @@ def generate_frames():
 
 def process_frames(filePath):
     try:
-        print("Outside "+filePath)
+        print("Outside process frames"+filePath)
         if filePath != '':
-            print("In if "+filePath)
+            print("In if process frames"+filePath)
             video = cv2.VideoCapture(filePath)
-            cv2.show()
         else:
             video = cv2.VideoCapture(0)  
 
@@ -94,7 +93,12 @@ def process_frames(filePath):
         base64Frames = []
         if person_detected:
             try:
-                video = cv2.VideoCapture(0)  
+                print("Outside person_detected"+filePath)
+                if filePath != '':
+                    print("In if person_detected"+filePath)
+                    video = cv2.VideoCapture(filePath)
+                else:
+                    video = cv2.VideoCapture(0)   
 
                 if not video.isOpened():
                     raise Exception("Could not open video device")
@@ -169,7 +173,7 @@ def video_feed():
 
 @app.route('/process_video', methods=['POST'])
 def process_video():
-    return process_frames()
+    return process_frames('')
 
 @app.route('/process_video_sent',methods=['POST'])
 def send_path():
@@ -177,11 +181,7 @@ def send_path():
     print(data)
     if not data:
         return jsonify({"error": "No data provided"}), 400
-    return data
-
-def process_video(data):
-    print(f"In process video {data}")  
-    return process_frames()
+    return process_frames(data)   
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)

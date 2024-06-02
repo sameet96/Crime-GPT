@@ -170,7 +170,6 @@ footer h5, footer p {
     background-color: #2c2c2c;
 }
 .alert-custom {
-    background-color: #007bff;
     color: white;
     border: none;
 }
@@ -218,3 +217,26 @@ footer h5, footer p {
     text-align: center;
 }
 
+/* Dark theme for the modal */
+#modal1 {
+    background-color: #2c2c2c; /* Dark background color */
+    color: #f1f1f1; /* Light text color */
+}
+
+#modal1 .modal-content {
+    background-color: #2c2c2c; /* Dark background color for content */
+    color: #f1f1f1; /* Light text color for content */
+}
+
+#modal1 .modal-footer {
+    background-color: #1e1e1e; /* Darker footer background color */
+}
+
+#modal1 .modal-footer .modal-close {
+    color: #ffffff; /* Light color for the close button */
+}
+
+/* Adjusting button styles */
+#modal1 .modal-footer .modal-close:hover {
+    background-color: #555555; /* Slightly lighter hover effect */
+}
