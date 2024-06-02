@@ -16,8 +16,8 @@ load_dotenv('.env')
 
 api_key = os.getenv('OPEN_AI_KEY')
 openai.api_key = api_key
-
-net = cv2.dnn.readNetFromDarknet('yolov3.cfg', 'yolov3.weights')
+net = cv2.dnn.readNetFromDarknet('/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.cfg', '/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.weights')
+# net = cv2.dnn.readNetFromDarknet('yolov3.cfg', 'yolov3.weights')
 
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
