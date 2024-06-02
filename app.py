@@ -1,7 +1,7 @@
 ## Run this file in terminal using the command: python app.py
 
 
-from flask import Flask, jsonify, render_template, Response
+from flask import Flask, jsonify, render_template, Response, request
 import cv2
 import numpy as np
 import base64
@@ -17,7 +17,7 @@ load_dotenv('.env')
 api_key = os.getenv('OPEN_AI_KEY')
 openai.api_key = api_key
 
-net = cv2.dnn.readNetFromDarknet('/Users/sameet/Crime GPT/yolov3/yolov3.cfg', '/Users/sameet/Crime GPT/yolov3/yolov3.weights')
+net = cv2.dnn.readNetFromDarknet('yolov3.cfg', 'yolov3.weights')
 
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
@@ -38,9 +38,15 @@ def generate_frames():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-def process_frames():
+def process_frames(filePath):
     try:
-        video = cv2.VideoCapture(0)  
+        print("Outside "+filePath)
+        if filePath != '':
+            print("In if "+filePath)
+            video = cv2.VideoCapture(filePath)
+            cv2.show()
+        else:
+            video = cv2.VideoCapture(0)  
 
         if not video.isOpened():
             raise Exception("Could not open video device")
@@ -163,6 +169,18 @@ def video_feed():
 
 @app.route('/process_video', methods=['POST'])
 def process_video():
+    return process_frames()
+
+@app.route('/process_video_sent',methods=['POST'])
+def send_path():
+    data = request.get_json()
+    print(data)
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    return data
+
+def process_video(data):
+    print(f"In process video {data}")  
     return process_frames()
 
 if __name__ == '__main__':

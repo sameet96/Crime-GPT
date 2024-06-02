@@ -1,0 +1,220 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.nav-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1e1e1e;
+}
+
+#nav-mobile {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.section {
+    padding: 4rem 0;
+    background-color: #1e1e1e;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-weight: 500;
+    color: #fff;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.activities-count {
+    font-size: 72px; /* Increased font size */
+    text-align: center;
+    color: #4CAF50;
+    animation: count-animation 2s ease-in-out forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Adjust the height as needed */
+    background-color: #474646; /* Optional: Add background color for visibility */
+    border-radius: 10px; /* Optional: Add border-radius for aesthetics */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: Add box-shadow for aesthetics */
+    margin-top: 20px; /* Optional: Add margin-top for spacing */
+}
+
+#activity-number {
+    font-size: 48px; /* Adjust the font size as needed */
+    font-weight: bold; /* Optional: Make the font bold */
+}
+
+@keyframes count-animation {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.card {
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+    background-color: #2c2c2c;
+    color: #fff;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content .card-image {
+    margin-top: 20px;
+}
+
+.card-content .card-image img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+footer {
+    padding: 20px 0;
+}
+
+footer h5, footer p {
+    margin: 0;
+    padding: 0;
+}
+
+.fixed-action-btn {
+    bottom: 45px;
+    right: 24px;
+    position: fixed;
+}
+
+.fixed-action-btn .btn {
+    width: auto;
+    height: auto;
+    padding: 0 2rem;
+    line-height: 56px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #3949ab;
+}
+
+.fixed-action-btn .btn:hover {
+    background-color: #1a237e;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.container {
+    margin-top: 50px;
+    background-color: #000;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+.btn-custom {
+    background-color: #2c2c2c;
+    color: white;
+    border: none;
+}
+.btn-custom:hover {
+    background-color: #2c2c2c;
+}
+.alert-custom {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+.alert-custom-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+#videoStream {
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+#status {
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.card-content-usr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title-usr {
+    margin-right: auto;
+    margin-left: 10px;
+}
+
+.right-section-usr {
+    margin-left: 20px;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer {
+    margin-top: 50px;
+    padding: 10px 0;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+}
+
