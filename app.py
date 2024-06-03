@@ -16,8 +16,8 @@ load_dotenv('.env')
 
 api_key = os.getenv('OPEN_AI_KEY')
 openai.api_key = api_key
-cfg_path = 'yolov3/yolov3.cfg'
-weights_path = 'yolov3/yolov3.weights'
+cfg_path = 'yolov3.cfg'
+weights_path = 'yolov3.weights'
 
 if not os.path.exists(cfg_path):
     raise FileNotFoundError(f"{cfg_path} not found")
