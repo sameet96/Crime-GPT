@@ -23,4 +23,4 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:80", "app:app"]
+CMD ["sh", "-c", "gunicorn --workers=4 --bind=0.0.0.0:$PORT app:app"]
