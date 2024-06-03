@@ -16,7 +16,16 @@ load_dotenv('.env')
 
 api_key = os.getenv('OPEN_AI_KEY')
 openai.api_key = api_key
-net = cv2.dnn.readNetFromDarknet('yolov3/yolov3.cfg', 'yolov3/yolov3.weights')
+cfg_path = 'yolov3/yolov3.cfg'
+weights_path = 'yolov3/yolov3.weights'
+
+if not os.path.exists(cfg_path):
+    raise FileNotFoundError(f"{cfg_path} not found")
+
+if not os.path.exists(weights_path):
+    raise FileNotFoundError(f"{weights_path} not found")
+
+net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
 
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
