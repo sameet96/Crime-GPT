@@ -39,11 +39,10 @@ def generate_frames():
 
 def process_frames(filePath):
     try:
-        print("Outside "+filePath)
+        print("Outside process frames"+filePath)
         if filePath != '':
-            print("In if "+filePath)
+            print("In if process frames"+filePath)
             video = cv2.VideoCapture(filePath)
-            cv2.show()
         else:
             video = cv2.VideoCapture(0)  
 
@@ -73,7 +72,7 @@ def process_frames(filePath):
                         scores = detection[5:]
                         class_id = np.argmax(scores)
                         confidence = scores[class_id]
-                        print(f"Detection: class_id={class_id}, confidence={confidence}")
+                        # print(f"Detection: class_id={class_id}, confidence={confidence}")
                         if confidence > 0.5 and class_id == 0: 
                             person_detected = True  
                             break
@@ -93,7 +92,12 @@ def process_frames(filePath):
         base64Frames = []
         if person_detected:
             try:
-                video = cv2.VideoCapture(0)  
+                print("Outside person_detected"+filePath)
+                if filePath != '':
+                    print("In if person_detected"+filePath)
+                    video = cv2.VideoCapture(filePath)
+                else:
+                    video = cv2.VideoCapture(0)   
 
                 if not video.isOpened():
                     raise Exception("Could not open video device")
@@ -125,7 +129,7 @@ def process_frames(filePath):
                     {
                         "role": "user",
                         "content": [
-                            "These are frames from a video that I want to upload. Categorize this video in crime or not crime. If it is a crime generate a description",
+                            "These are frames from a video that I want to upload. Categorize this video in crime or not crime. Do not make any text bold. If it is a crime generate a description. If crime is detected provide response with a title asCategory: Crime. If crime is not detetcted then provide title as Category: Nothing to worry!",
                             *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::50]),
                         ],
                     },
@@ -168,19 +172,15 @@ def video_feed():
 
 @app.route('/process_video', methods=['POST'])
 def process_video():
-    return process_frames()
+    return process_frames('')
 
 @app.route('/process_video_sent',methods=['POST'])
 def send_path():
     data = request.get_json()
-    print("in send path "+data)
+    print(data)
     if not data:
         return jsonify({"error": "No data provided"}), 400
-    return data
-
-def process_video_data(data):
-    print(f"In process video {data}")  
-    return process_frames(data)
+    return process_frames(data)   
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
