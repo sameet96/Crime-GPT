@@ -1,16 +1,26 @@
 FROM python:3.9
 
+# Install dependencies for OpenCV
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0
+
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
+# Copy YOLOv3 model files
+COPY yolov3/yolov3.cfg /app/yolov3/yolov3.cfg
+COPY yolov3/yolov3.weights /app/yolov3/yolov3.weights
+
 COPY . .
 
-# Expose the port
-EXPOSE 8000
+# Set environment variables from build arguments
+ARG OPEN_AI_KEY
+ENV OPEN_AI_KEY=$OPEN_AI_KEY
 
-# Set the environment variable for Heroku
-ENV PORT 8000
+# Expose the port
+EXPOSE $PORT
 
 CMD ["sh", "-c", "gunicorn --workers=4 --bind 0.0.0.0:$PORT app:app"]
