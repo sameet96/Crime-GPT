@@ -20,8 +20,6 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Copy the yolov3 directory
-COPY yolov3 /app/yolov3
 
 # Copy the entire project
 COPY . .
