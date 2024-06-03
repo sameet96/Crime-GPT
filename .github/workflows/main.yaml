@@ -15,6 +15,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Install Git LFS
+      - name: Install Git LFS
+        run: |
+          apt-get update
+          apt-get install -y git-lfs
+          git lfs install
+
+      # Pull LFS files
+      - name: Pull LFS files
+        run: git lfs pull
+
       - name: Build, Push and Release a Docker container to Heroku
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
