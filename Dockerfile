@@ -10,9 +10,8 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Copy YOLOv3 model files
-COPY yolov3/yolov3.cfg /app/yolov3/yolov3.cfg
-COPY yolov3/yolov3.weights /app/yolov3/yolov3.weights
+# Copy the entire yolov3 directory
+COPY yolov3 /app/yolov3
 
 COPY . .
 

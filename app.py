@@ -16,8 +16,7 @@ load_dotenv('.env')
 
 api_key = os.getenv('OPEN_AI_KEY')
 openai.api_key = api_key
-# net = cv2.dnn.readNetFromDarknet('/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.cfg', '/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.weights')
-net = cv2.dnn.readNetFromDarknet('yolov3.cfg', 'yolov3.weights')
+net = cv2.dnn.readNetFromDarknet('yolov3/yolov3.cfg', 'yolov3/yolov3.weights')
 
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
@@ -40,10 +39,11 @@ def generate_frames():
 
 def process_frames(filePath):
     try:
-        print("Outside process frames"+filePath)
+        print("Outside "+filePath)
         if filePath != '':
-            print("In if process frames"+filePath)
+            print("In if "+filePath)
             video = cv2.VideoCapture(filePath)
+            cv2.show()
         else:
             video = cv2.VideoCapture(0)  
 
@@ -73,7 +73,7 @@ def process_frames(filePath):
                         scores = detection[5:]
                         class_id = np.argmax(scores)
                         confidence = scores[class_id]
-                        # print(f"Detection: class_id={class_id}, confidence={confidence}")
+                        print(f"Detection: class_id={class_id}, confidence={confidence}")
                         if confidence > 0.5 and class_id == 0: 
                             person_detected = True  
                             break
@@ -93,12 +93,7 @@ def process_frames(filePath):
         base64Frames = []
         if person_detected:
             try:
-                print("Outside person_detected"+filePath)
-                if filePath != '':
-                    print("In if person_detected"+filePath)
-                    video = cv2.VideoCapture(filePath)
-                else:
-                    video = cv2.VideoCapture(0)   
+                video = cv2.VideoCapture(0)  
 
                 if not video.isOpened():
                     raise Exception("Could not open video device")
@@ -130,7 +125,7 @@ def process_frames(filePath):
                     {
                         "role": "user",
                         "content": [
-                            "These are frames from a video that I want to upload. Categorize this video in crime or not crime. Do not make any text bold. If it is a crime generate a description. If crime is detected provide response with a title asCategory: Crime. If crime is not detetcted then provide title as Category: Nothing to worry!",
+                            "These are frames from a video that I want to upload. Categorize this video in crime or not crime. If it is a crime generate a description",
                             *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::50]),
                         ],
                     },
@@ -173,15 +168,19 @@ def video_feed():
 
 @app.route('/process_video', methods=['POST'])
 def process_video():
-    return process_frames('')
+    return process_frames()
 
 @app.route('/process_video_sent',methods=['POST'])
 def send_path():
     data = request.get_json()
-    print(data)
+    print("in send path "+data)
     if not data:
         return jsonify({"error": "No data provided"}), 400
-    return process_frames(data)   
+    return data
+
+def process_video_data(data):
+    print(f"In process video {data}")  
+    return process_frames(data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
