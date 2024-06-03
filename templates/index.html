@@ -4,94 +4,184 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crime Detector</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <style>
-        body {
-            background-color: #f4f4f9;
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        .logo {
-            width: 150px;
-            margin-bottom: 20px;
-        }
-        .btn-custom {
-            background-color: #007bff;
-            color: white;
-            border: none;
-        }
-        .btn-custom:hover {
-            background-color: #0056b3;
-        }
-        .alert-custom {
-            background-color: #007bff;
-            color: white;
-            border: none;
-        }
-        .alert-custom-danger {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-        }
-        #videoStream {
-            border: 2px solid #007bff;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        #status {
-            margin-top: 20px;
-        }
-        footer {
-            margin-top: 50px;
-            padding: 10px 0;
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container text-center">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Crime Detector Logo" class="logo">
-        <h1 class="mb-4">Crime Detector</h1>
-        <button id="startButton" class="btn btn-custom btn-lg">Start</button>
-        <div id="status" class="mt-3"></div>
-        <div class="mt-4">
-            <img id="videoStream" src="/video_feed" width="640" height="480" class="img-fluid" />
+
+    <!-- Navbar -->
+    <nav class="nav-extended blue darken-3">
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="left">
+                <li><a href="#multiple-view">Footage View</a></li>
+                <li><a href="#location-view">Locations</a></li>
+                <li><a href="#category-view">Category</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#activities">Total Activities & User Profile</a></li>
+            </ul>
+            <div class="right-section">
+                <!-- <p><a href="#">Crime Detector</a></p> -->
+                <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Crime Detector Logo" class="logo"></a>
+            </div>
+        </div>
+    </nav>
+        <!-- <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="#about">About</a></li>
+                <li class="tab"><a href="#activities">Total Activities & User Profile</a></li>
+            </ul>
+        </div> -->
+    </nav>
+
+    <!-- Content -->
+    <div id="multiple-view" class="section">
+        <h2 class="center-align">Footage View</h2>
+        <div class="row">
+            <div class="col s6">
+                <video width="100%" controls>
+                    <source src="{{ url_for('static', filename='images/Assault033_x264.mov')}}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <button class="btn" id="button1">Try me!</button>
+            </div>
+            <div class="col s6">
+                <video width="100%" controls>
+                    <source src="{{ url_for('static', filename='images/Assault032_x264.mov')}}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <button class="btn" id="button2">Try me!</button>
+            </div>
+        </div>
+        <h2 class="center-align">Capture Feed</h2>
+        <div class="container">
+            <div id="status" class="center-align">Status Message Here</div>
+            <img id="videoStream" src="/video_feed" class="img-fluid" height="480px" width="640px"/>
+        </div>
+    
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Response</h4>
+            <p id="responseText"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2024 Crime Detector. All rights reserved.</p>
+    <div id="location-view" class="section">
+        <h2 class="center-align">Locations</h2>
+        <div id="map" style="height: 500px; width: 100%;"></div>
+    </div>
+
+    <div id="category-view" class="section">
+        <h2 class="center-align">Category</h2>
+        <div class="row">
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ url_for('static', filename='images/home.png') }}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Home</span>
+                        <p>Monitor conditions and incidents at Home Sweet Home.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ url_for('static', filename='images/store.png') }}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Store</span>
+                        <p>Keep an eye on retail activities and security.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ url_for('static', filename='images/office.png' )}}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">Office</span>
+                        <p>Surveillance for office environments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="about" class="section">
+        <h2 class="center-align">About the Product</h2>
+        <p class="center-align">This product helps you view CCTV footage efficiently.</p>
+    </div>
+
+    <div id="activities" class="section">
+        <div class="row">
+            <div class="col s6">
+                <h2 class="center-align">Total Activities Recorded</h2>
+                <div class="activities-count">
+                    <span id="activity-number">0</span>
+                </div>
+                <div class="activities-count">
+                    <span id="activity-number">0</span>
+                </div>
+                <div class="activities-count">
+                    <span id="activity-number">0</span>
+                </div>
+                <div class="activities-count">
+                    <span id="activity-number">0</span>
+                </div>
+            </div>
+            <div class="col s6">
+                <h2 class="center-align">User Profile</h2>
+                <div class="card">
+                    <div class="card-content-usr">
+                        <div class="left-section">
+                            <span class="card-title-usr">John Doe</span>
+                            <p>john.doe@example.com</p>
+                            <p>Admin</p>
+                        </div>
+                        <div class="card-image right-section-usr">
+                            <img src="{{ url_for('static', filename='images/profile.png') }}" alt="Profile Picture">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="fixed-action-btn">
+        <a class="btn btn-large indigo darken-4" id="startButton">
+            MONITOR
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer darken-3">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Contact Us</h5>
+                <p class="grey-text text-lighten-4">You can reach us at support@example.com</p>
+                <p>&copy; 2024 Crime Detector. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
-    <script>
-        $(document).ready(function(){
-            $('#startButton').click(function(){
-                $('#status').text('Starting video capture...');
-                $.ajax({
-                    url: '/process_video',
-                    method: 'POST',
-                    success: function(response) {
-                        $('#status').html('<div class="alert alert-custom">' + response.message + '</div>');
-                    },
-                    error: function() {
-                        $('#status').html('<div class="alert alert-custom-danger">Error starting video capture.</div>');
-                    }
-                });
-            });
-        });
-    </script>
-    <!-- Bootstrap JS and dependencies -->
+    <!-- JavaScript at end of body for optimized loading -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR7Ws4_xXKxOtLsOYzeD8CNfuCB0g907I&loading=async&callback=initMap" async defer></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </body>
 </html>

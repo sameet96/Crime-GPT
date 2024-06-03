@@ -16,7 +16,7 @@ api_key = os.getenv('OPEN_AI_KEY')
 client = OpenAI(api_key=api_key)
 
 # Load the YOLO model
-net = cv2.dnn.readNetFromDarknet('/Users/sameet/Crime GPT/yolov3/yolov3.cfg', '/Users/sameet/Crime GPT/yolov3/yolov3.weights')
+net = cv2.dnn.readNetFromDarknet('yolov3.cfg', 'yolov3.weights')
 
 # Get the output layer names
 layer_names = net.getLayerNames()
