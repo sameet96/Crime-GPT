@@ -1,0 +1,12 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+
+build:
+  languages:
+    - python
+  packages:
+    - git-lfs
+  predeploy:
+    - git lfs install
+    - git lfs pull
