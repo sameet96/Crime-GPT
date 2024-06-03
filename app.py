@@ -16,8 +16,8 @@ load_dotenv('.env')
 
 api_key = os.getenv('OPEN_AI_KEY')
 openai.api_key = api_key
-net = cv2.dnn.readNetFromDarknet('/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.cfg', '/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.weights')
-# net = cv2.dnn.readNetFromDarknet('yolov3.cfg', 'yolov3.weights')
+# net = cv2.dnn.readNetFromDarknet('/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.cfg', '/Users/sameet/Projects/Crime-GPT/yolov3/yolov3.weights')
+net = cv2.dnn.readNetFromDarknet('yolov3.cfg', 'yolov3.weights')
 
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
@@ -73,7 +73,7 @@ def process_frames(filePath):
                         scores = detection[5:]
                         class_id = np.argmax(scores)
                         confidence = scores[class_id]
-                        print(f"Detection: class_id={class_id}, confidence={confidence}")
+                        # print(f"Detection: class_id={class_id}, confidence={confidence}")
                         if confidence > 0.5 and class_id == 0: 
                             person_detected = True  
                             break
@@ -130,7 +130,7 @@ def process_frames(filePath):
                     {
                         "role": "user",
                         "content": [
-                            "These are frames from a video that I want to upload. Categorize this video in crime or not crime. If it is a crime generate a description",
+                            "These are frames from a video that I want to upload. Categorize this video in crime or not crime. Do not make any text bold. If it is a crime generate a description. If crime is detected provide response with a title asCategory: Crime. If crime is not detetcted then provide title as Category: Nothing to worry!",
                             *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::50]),
                         ],
                     },
