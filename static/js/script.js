@@ -43,13 +43,26 @@ document.addEventListener('DOMContentLoaded', function() {
 $(document).ready(function(){
     $('#startButton').click(function(){
         $('#status').text('Starting video capture...');
+        $('#loader').show(); // Show loader
         $.ajax({
             url: '/process_video',
             method: 'POST',
             success: function(response) {
-                $('#status').html('<div class="alert alert-custom">' + response.message + '</div>');
+                $('#loader').hide(); // Hide loader
+                if (response.message.includes('Category: Crime')) {
+                    var parts = response.message.split('Description:');
+                    var categoryPart = parts[0];
+                    var descriptionPart = parts.length > 1 ? 'Description:' + parts[1] : '';
+
+                    $('#status').html('<div class="alert alert-custom-danger">⚠️ ' + categoryPart + '</div>');
+                    $('#status').append('<div>' + descriptionPart + '</div>');
+                    $('#status').append('<a href="#" class="notify-link visible">Notify Contact</a>');
+                } else {
+                    $('#status').html('<div class="alert alert-custom">' + response.message + '</div>');
+                }
             },
             error: function() {
+                $('#loader').hide(); // Hide loader
                 $('#status').html('<div class="alert alert-custom-danger">Error starting video capture.</div>');
             }
         });
@@ -69,13 +82,26 @@ $(document).ready(function(){
 });
 
 function sendVideo(hardcodedValue) {
+    $('#loader').show(); // Show loader
     $.ajax({
         url: '/process_video_sent',
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(hardcodedValue),
         success: function(response) {
-            $('#responseText').html('<div class="alert alert-custom">' + response.message + '</div>');
+            if (response.message.includes('Category: Crime')) {
+                $('#loader').hide(); // Hide loader
+                var parts = response.message.split('Description:');
+                var categoryPart = parts[0];
+                var descriptionPart = parts.length > 1 ? 'Description:' + parts[1] : '';
+
+                $('#responseText').html('<div class="alert alert-custom-danger">⚠️ ' + categoryPart + '</div>');
+                $('#responseText').append('<div>' + descriptionPart + '</div>');
+                $('#responseText').append('<a href="#" class="notify-link visible">Notify Contact</a>');
+
+            } else {
+                $('#responseText').html('<div class="alert alert-custom">' + response.message + '</div>');
+            }
             $('#modal1').modal('open');
         },
         error: function(error) {
