@@ -7,6 +7,10 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE $PORT
+# Expose the port
+EXPOSE 8000
 
-CMD ["gunicorn", "--workers=4", "--bind", "0.0.0.0:$PORT", "app:app"]
+# Set the environment variable for Heroku
+ENV PORT 8000
+
+CMD ["sh", "-c", "gunicorn --workers=4 --bind 0.0.0.0:$PORT app:app"]
