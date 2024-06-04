@@ -33,7 +33,7 @@ output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 def generate_frames():
     video = cv2.VideoCapture(0)
     if not video.isOpened():
-        raise Exception("Could not open video device")
+        raise Exception("Could not open video device generate frames")
 
     while True:
         success, frame = video.read()
@@ -56,7 +56,7 @@ def process_frames(filePath):
             video = cv2.VideoCapture(0)  
 
         if not video.isOpened():
-            raise Exception("Could not open video device")
+            raise Exception("Could not open video device process frames")
 
         person_detected = False
 
