@@ -73,11 +73,11 @@ $(document).ready(function(){
     $('.modal').modal();
 
     $('#button1').click(function() {
-        sendVideo('/static/images/Assault033_x264.mov');
+        sendVideo('https://github.com/sameet96/Crime-GPT/blob/main/static/images/Abuse042_x264.mov');
     });
     
     $('#button2').click(function() {
-        sendVideo('/static/images/Assault033_x264.mov');
+        sendVideo('https://github.com/sameet96/Crime-GPT/blob/main/static/images/Abuse042_x264.mov');
     });
 });
 
