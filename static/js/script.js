@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var tabs = document.querySelectorAll('.tabs');
     M.Tabs.init(tabs);
 
-    // Animate total activities countdi
+    // Animate total activities count
     animateCount('activity-number', 1000);
 
     // User profile card animation
@@ -69,33 +69,15 @@ $(document).ready(function(){
     });
 });
 
-
-
 $(document).ready(function(){
     $('.modal').modal();
 
-    function startWebcam(videoElement) {
-        if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function (stream) {
-                    videoElement.srcObject = stream;
-                })
-                .catch(function (err0r) {
-                    console.log("Something went wrong!");
-                });
-        }
-    }
-
     $('#button1').click(function() {
-        var video = document.querySelector('#video1');
-        startWebcam(video);
-        sendVideo('/Users/pbangad/Documents/CrimeApp/Crime-GPT/static/images/Assault033_x264.mov');
+        sendVideo('https://raw.githubusercontent.com/sameet96/Crime-GPT/main//Crime-GPT/static/images/Assault033_x264.mov');
     });
-
+    
     $('#button2').click(function() {
-        var video = document.querySelector('#video2');
-        startWebcam(video);
-        sendVideo('/Users/pbangad/Documents/CrimeApp/Crime-GPT/static/images/Assault032_x264.mov');
+        sendVideo('https://raw.githubusercontent.com/sameet96/Crime-GPT/main//Crime-GPT/static/images/Assault033_x264.mov');
     });
 });
 
