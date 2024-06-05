@@ -17,10 +17,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Make port 80 available to the world outside this container
-EXPOSE 80
+EXPOSE 8080
 
 # Define environment variable
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["sh", "-c", "gunicorn --workers=4 --bind=0.0.0.0:$PORT app:app"]
+CMD ["python3", "app.py"]
