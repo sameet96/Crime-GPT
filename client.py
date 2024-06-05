@@ -1,7 +1,7 @@
 import requests
 
-urlCapture = 'http://127.0.0.1:5001/process_video'
-urlTestVideo = 'http://127.0.0.1:5001/process_video_sent'
+urlCapture = 'http://34.207.131.137:8080/process_video'
+urlTestVideo = 'http://34.207.131.137:8080/process_video_sent'
 
 
 try:
