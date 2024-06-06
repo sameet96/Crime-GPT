@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.12
 
 # Set the working directory in the container
 WORKDIR /app
@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 unzip -y && pip ins
 #     rm -rf /var/lib/apt/lists/*
 
 # Make port 80 available to the world outside this container
-# EXPOSE 8080
+EXPOSE 8080
 
 # Define environment variable
 # ENV NAME World
