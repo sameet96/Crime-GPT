@@ -10,9 +10,9 @@ COPY . /app
 # Install dependencies
 RUN apk update && apk add --no-cache \
     aws-cli \
-    # ffmpeg \
-    # libsm6 \
-    # libxext6 \
+    ffmpeg \
+    libsm6 \
+    libxext6 \
     unzip && \
     pip install --no-cache-dir -r requirements.txt && \
     apk del build-dependencies && \
