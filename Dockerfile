@@ -8,11 +8,15 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y awscli ffmpeg libsm6 libxext6 unzip && \
+RUN apt-get update && apt-get install -y \
+    awscli \
+    ffmpeg \
+    libsm6 \
+    libxext6 \
+    unzip && \
     pip install --no-cache-dir -r requirements.txt && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
