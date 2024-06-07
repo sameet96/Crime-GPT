@@ -11,6 +11,8 @@ COPY . /app
 # RUN pip install --no-cache-dir -r requirements.txt
 RUN apt update -y && apt install awscli -y
 
+RUN apt-get install python3-pip
+
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 unzip -y && pip install -r requirements.txt
 
 # Install dependencies for OpenCV
