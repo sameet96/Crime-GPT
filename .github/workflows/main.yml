@@ -49,6 +49,11 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Clean up Docker to free space
+        run: |
+          docker system prune -af
+          docker volume prune -f
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
