@@ -1,5 +1,5 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Use a smaller base image
+FROM python:3.9-alpine
 
 # Set the working directory in the container
 WORKDIR /app
@@ -8,15 +8,15 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
-    awscli \
-    ffmpeg \
-    libsm6 \
-    libxext6 \
+RUN apk update && apk add --no-cache \
+    aws-cli \
+    # ffmpeg \
+    # libsm6 \
+    # libxext6 \
     unzip && \
     pip install --no-cache-dir -r requirements.txt && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apk del build-dependencies && \
+    rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
