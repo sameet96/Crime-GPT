@@ -41,15 +41,18 @@ jobs:
       - name: Check Initial Disk Space
         run: df -h
 
-      - name: Clean up Docker to free space
+      - name: Clean up Docker and System to Free Space
         run: |
           docker system prune -af
           docker volume prune -f
           docker image prune -af
           docker container prune -f
-
-      - name: Remove Unused Dependencies
-        run: sudo apt-get autoremove -y
+          sudo rm -rf /var/lib/docker/tmp/*
+          sudo rm -rf /var/cache/apt/*
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get clean
+          sudo apt-get autoremove -y
+          sudo journalctl --vacuum-time=1s
 
       - name: Check Disk Space After Cleanup
         run: df -h

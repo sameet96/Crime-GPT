@@ -1,4 +1,4 @@
-# Use an official Python runtime as a parent image
+# Use a minimal Python runtime as a parent image
 FROM python:3.9-slim
 
 # Set the working directory in the container
@@ -8,15 +8,15 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     awscli \
     ffmpeg \
     libsm6 \
     libxext6 \
-    unzip && \
-    pip install --no-cache-dir -r requirements.txt && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    unzip \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
