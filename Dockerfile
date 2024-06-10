@@ -1,25 +1,27 @@
-# Use a minimal Python runtime as a parent image
-FROM python:3.9-slim
+# Stage 1: Build dependencies
+FROM python:3.9-slim AS builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+COPY requirements.txt .
 
-# Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    awscli \
-    ffmpeg \
-    libsm6 \
-    libxext6 \
-    unzip \
+    gcc \
     && pip install --no-cache-dir -r requirements.txt \
+    && apt-get remove -y gcc \
+    && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Make port 8080 available to the world outside this container
+# Stage 2: Final image
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+
+COPY . .
+
 EXPOSE 8080
 
-# Run app.py when the container launches
 CMD ["python3", "app.py"]
