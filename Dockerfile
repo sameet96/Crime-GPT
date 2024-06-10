@@ -15,7 +15,6 @@ RUN apk update && apk add --no-cache \
     libxext6 \
     unzip && \
     pip install --no-cache-dir -r requirements.txt && \
-    apk del build-dependencies && \
     rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 # Make port 8080 available to the world outside this container
