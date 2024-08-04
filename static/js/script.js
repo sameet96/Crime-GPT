@@ -42,11 +42,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 $(document).ready(function(){
     $('#startButton').click(function(){
-        $('#status').text('Starting video capture...');
+        $('#status').text('Starting webcam capture...');
         $('#loader').show(); // Show loader
         $.ajax({
-            url: '/process_video',
+            url: '/process_webcam',
             method: 'POST',
+            contentType: 'application/json',
             success: function(response) {
                 $('#loader').hide(); // Hide loader
                 if (response.message.includes('Category: Crime')) {
@@ -63,34 +64,30 @@ $(document).ready(function(){
             },
             error: function() {
                 $('#loader').hide(); // Hide loader
-                $('#status').html('<div class="alert alert-custom-danger">Error starting video capture.</div>');
+                $('#status').html('<div class="alert alert-custom-danger">Error capturing webcam video.</div>');
             }
         });
     });
-});
-
-$(document).ready(function(){
-    $('.modal').modal();
 
     $('#button1').click(function() {
-        sendVideo('https://raw.githubusercontent.com/sameet96/Crime-GPT/main/static/images/Abuse042_x264.mov');
+        sendVideo('static/images/Assault033_x264.mov');
     });
     
     $('#button2').click(function() {
-        sendVideo('https://raw.githubusercontent.com/sameet96/Crime-GPT/main/static/images/Abuse042_x264.mov');
+        sendVideo('static/images/Assault032_x264.mov');
     });
 });
 
-function sendVideo(hardcodedValue) {
+function sendVideo(filePath) {
     $('#loader').show(); // Show loader
     $.ajax({
         url: '/process_video_sent',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(hardcodedValue),
+        data: JSON.stringify({ file_path: filePath }),
         success: function(response) {
+            $('#loader').hide(); // Hide loader
             if (response.message.includes('Category: Crime')) {
-                $('#loader').hide(); // Hide loader
                 var parts = response.message.split('Description:');
                 var categoryPart = parts[0];
                 var descriptionPart = parts.length > 1 ? 'Description:' + parts[1] : '';
@@ -105,7 +102,7 @@ function sendVideo(hardcodedValue) {
             $('#modal1').modal('open');
         },
         error: function(error) {
-            $('#responseText').html('<div class="alert alert-custom">' + error.responseText + '</div>');
+            $('#responseText').html('<div class="alert alert-custom-danger">Error processing video.</div>');
             $('#modal1').modal('open');
         }
     });
@@ -147,3 +144,51 @@ function animateCount(id, endValue) {
 
     updateCount();
 }
+
+// Webcam functionality
+document.getElementById('monitorButton').addEventListener('click', () => {
+    const video = document.getElementById('webcam');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    // Capture a frame from the webcam
+    function captureFrame() {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        return canvas.toDataURL('image/jpeg');
+    }
+
+    // Send the captured frame to the server
+    function sendFrame(frame) {
+        fetch('/process_webcam_frame', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ frame: frame })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Start capturing frames
+    setInterval(() => {
+        const frame = captureFrame();
+        sendFrame(frame);
+    }, 1000); // Capture a frame every second
+});
+
+// Access the webcam
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        document.getElementById('webcam').srcObject = stream;
+    })
+    .catch(error => {
+        console.error('Error accessing webcam:', error);
+    });
